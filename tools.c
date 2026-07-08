@@ -6,8 +6,8 @@
  **********************************************************/
 void clearScreen()
 {
-//   system("clear"); // Linux / Mac
-   system("CLS");   // Windows
+//   system("clear");
+   system("CLS");
 }
 
 /**********************************************************
@@ -47,4 +47,18 @@ int askYesOrNo(char *Question)
          clearBuffer();
    } while ((Input != 'j') && (Input != 'J') && (Input != 'n') && (Input != 'N'));
    return ((Input == 'j') || (Input == 'J'));
+}
+
+/**********************************************************
+ *
+ **********************************************************/
+
+void printLine(char sign, int count)
+{
+	int i;
+	for(i=0; i<= count; i++)
+	{
+		printf("%c", sign);
+	}
+	printf ("\n");
 }

@@ -5,5 +5,5 @@ void clearScreen(void);
 void clearBuffer(void);
 void waitForEnter(void);
 int askYesOrNo(char *Question);
-
+void printLine(char sign, int count);
 #endif
