@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "list.h"
 #include "datastructure.h"
 #include "tools.h"
 #include "menu.h"
@@ -9,8 +10,9 @@
 #include "teams.h"
 
 /* globale Variable */
+sTeam *FirstTeam = NULL;
+sTeam *LastTeam = NULL;
 int Teamcounter = 0;
-sTeam Teams[MAXTEAMS];
 
 /***************************************************************
 * Function: createTeam
@@ -18,7 +20,7 @@ sTeam Teams[MAXTEAMS];
 ***************************************************************/
 int createTeam()
 {
-    sTeam *Team = Teams + Teamcounter;
+    sTeam *Team = malloc(sizeof(sTeam));
     if(!(getText("teamname eingeben:", 50, 0, &Team->teamname)))
     {
         printf("ungueltiger TeamName.\n");
@@ -116,41 +118,28 @@ void sortTeams(void)
     // Display the sorting submenu
     choice = getMenu("Untermenü für die Sortierung", menuoptions, menuoptioncount);
     printf("Benutzer hat die Option gewaehlt: %d\n", choice);
+    sTeam *current = FirstTeam; // start from the first team
+
+    while (current!= NULL && Teamcounter!=0){
     switch (choice) {
         case 1:
             printf("Sortieren nach Namen...\n");
-            for (int i = 0; i < Teamcounter; i++) {
-                printf("%i Spieler der Mannschaft %s sortieren ...", Teams[i].playercount, Teams[i].teamname);
-                quickSort(Teams[i].players, 0, Teams[i].playercount - 1, compareByName);
-                printf("ok\n");
-        }
-        break;
+            quickSort((*current)players, 0, current->playercount - 1, compareByName);
+            break;
 
         case 2:
             printf("Sortieren nach Geburtsdatum...\n");
-            for (int i= 0; i < Teamcounter; i++) {
-                printf("%i Spieler der Mannschaft %s sortieren ...", Teams[i].playercount, Teams[i].teamname);
-                quickSort(Teams[i].players,0,Teams[i].playercount - 1, compareByBirthdate);
-                printf("ok\n");
-            }
+            quickSort((*current)players, 0, current->playercount - 1, compareByName);
             break;
 
         case 3:
             printf("Sortieren nach Trikotnummer ...\n");
-            for (int i = 0; i < Teamcounter; i++) {
-                printf("%i Spieler der Mannschft %s sortieren ...", Teams[i].playercount, Teams[i].teamname);
-                quickSort(Teams[i].players,0, Teams[i].playercount - 1, compareByJerseyNumber);
-                printf("ok\n");
-            }
+            quickSort((*current)players, 0, current->playercount - 1, compareByName);
             break;
 
         case 4:
             printf("Sortieren nach Anzahl geschossener Tore ...\n");
-            for (int i = 0; i < Teamcounter; i++) {
-                printf("%i Spieler der Mannschaft %s sortieren ... ", Teams[i].playercount, Teams[i].teamname);
-                quickSort(Teams[i].players, 0, Teams[i].playercount - 1, compareByGoals);
-                printf("ok\n");
-            }
+            quickSort((*current)players, 0, current->playercount - 1, compareByName);
             break;
 
         case 5:
@@ -161,7 +150,8 @@ void sortTeams(void)
             printf("ungueltige Auswahl!\n");
             return;
     }
-
+    current = current->next; //geht zum naechsten Team
+    }
     printf("\n Sortierung abgeschlossen.Sortierte Liste:\n");
     listTeams();
 
@@ -181,15 +171,25 @@ void listTeams(void)
     printf("liste der Mannschaften\n");
     printf("======================\n\n");
 
-    if (Teamcounter ==0)
+    if (FirstTeam ==NULL)
         printf("keine Mannschaften vorhanden\n");
 
-    for (int i = 0; i < Teamcounter; i++) {
-        listOneTeam(Teams + i);
-        printf("\n");
-    }
+        sTeam *current = FirstTeam;
+        int index = 1;
+        while (current != NULL) {
+            listOneTeam(current, index);
+            printf("\n");
+            current = current->next;
+            index ++;
+        }
 
-    waitForEnter();
+        waitForEnter();
+    //for (int i = 0; i < Teamcounter; i++) {
+      //  listOneTeam(Teams + i);
+        //printf("\n");
+    //}
+
+    // waitForEnter();
 }
 
 /****************************************************************
@@ -266,4 +266,67 @@ int createPlayer(sPlayer *Player) {
 
     return 1;
 }
+
+// Funktion zum Loeschen einer Mannschaft aus der Liste
+
+void deleteTeam() {
+    sTeam *current = FirstTeam;
+    sTeam *teamtodelete = NULL;
+    int choice, index = 1;
+
+    if (current == NULL) {
+        printf("keine Mannschaften zum loeschen vorhanden.\n");
+        return;
+    }
+    //  Display teams with numbers for deletion
+    printf("Auswahl einer Mannschaft zum Loeschen:\n");
+    printf("Liste der Mannschaften\n");
+    printf("=======================\n\n");
+
+    while (current != NULL) {
+        printf("%d: %s\n", index, current->teamname);
+        current = current->next;
+        index++;
+    }
+
+    printf ("welche Mannschaft moechten Sie loeschen(0 fuer Abbrechen)?");
+    scanf("%d", &choice);
+
+    if (choice == 0) {
+        printf("Loeschen abgebrochen.\n");
+        return;
+    }
+
+    current = FirstTeam;
+    index = 1;
+    while (current != NULL) {
+        if (index == choice) {
+            teamtodelete = current;
+            break;
+        }
+        current = current->next;
+        index++;
+    }
+
+    if (teamtodelete != NULL) {
+        // Loescht ein team aus der Liste
+        removeDListElement(teamtodelete);
+
+        // gibt der Speicher frei fuer teamname, trainername....
+        free(teamtodelete->teamname);
+        free(teamtodelete->trainername);
+
+        for (int i = 0; i < teamtodelete->playercount;i++) {
+            free(teamtodelete->players[i].playername);
+            free(teamtodelete->players[i].birthday);
+        }
+
+        free(teamtodelete);
+        Teamcounter--;
+        printf("Mannschaft erfolgreich geloescht. \n");
+    }else{
+        printf("ungueltige Auswahl. Mannschaft konnte nicht gefunden werden\n");
+    }
+}
+
 

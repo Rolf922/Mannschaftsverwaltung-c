@@ -32,6 +32,14 @@ const char *filename="teams.xml";
  *</Data> schreiben
  *Datei schlieﬂen
 *************************************************/
+sTeam *FirstTeam = NULL;
+sTeam *LastTeam = NULL;
+int Teamcounter = 0;
+
+
+
+
+
 void save(const char *filename)
 {
     FILE *file;

@@ -2,7 +2,6 @@
 #define DATASTRUCTURE_H
 
 #define MAXPLAYER 23
-#define MAXTEAMS 10
 
 typedef struct
 {
@@ -25,9 +24,13 @@ typedef struct
 	char *trainername;
 	int playercount;
 	sPlayer players[MAXPLAYER];
+
+	struct sTeam *next;
+	struct sTeam *prev;
 } sTeam;
 
 extern int Teamcounter;
-extern sTeam Teams[MAXTEAMS];
+extern sTeam *FirstTeam;
+extern sTeam *LastTeam;
 
 #endif
