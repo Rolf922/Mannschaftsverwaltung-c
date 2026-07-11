@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include "datastructure.h"
 #include "menu.h"
 #include "teams.h"
 

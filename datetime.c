@@ -150,3 +150,12 @@ int getDateFromString(char *Input, sDate *Date)
 
     return 1;
 }
+/*************** Diese Funktion gibt ein Datum auf dem Bildschirm aus ***************/
+
+void printDate(sDate *Date)
+{
+    if (Date != NULL)
+    {
+        printf("%02d.%02d.%04d", Date->Day, Date->Month, Date->Year);
+    }
+}

@@ -6,5 +6,6 @@
 int isLeapYear(int Year);
 int isDateValid(sDate Date);
 int getDateFromString(char *Input, sDate *Date);
+void printDate(sDate *Date);
 
 #endif
