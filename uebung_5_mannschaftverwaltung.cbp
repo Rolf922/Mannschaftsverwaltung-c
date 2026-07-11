@@ -2,12 +2,12 @@
 <CodeBlocks_project_file>
 	<FileVersion major="1" minor="6" />
 	<Project>
-		<Option title="uebung_4_mannschaftverwaltung" />
+		<Option title="uebung_5_mannschaftverwaltung" />
 		<Option pch_mode="2" />
 		<Option compiler="gcc" />
 		<Build>
 			<Target title="Debug">
-				<Option output="bin/Debug/uebung_4_mannschaftverwaltung" prefix_auto="1" extension_auto="1" />
+				<Option output="bin/Debug/uebung_5_mannschaftverwaltung" prefix_auto="1" extension_auto="1" />
 				<Option object_output="obj/Debug/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
@@ -16,7 +16,7 @@
 				</Compiler>
 			</Target>
 			<Target title="Release">
-				<Option output="bin/Release/uebung_4_mannschaftverwaltung" prefix_auto="1" extension_auto="1" />
+				<Option output="bin/Release/uebung_5_mannschaftverwaltung" prefix_auto="1" extension_auto="1" />
 				<Option object_output="obj/Release/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
@@ -48,6 +48,10 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="menu.h" />
+		<Unit filename="sort.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="sort.h" />
 		<Unit filename="teams.c">
 			<Option compilerVar="CC" />
 		</Unit>
@@ -57,8 +61,6 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="tools.h" />
-		<Extensions>
-			<lib_finder disable_auto="1" />
-		</Extensions>
+		<Extensions />
 	</Project>
 </CodeBlocks_project_file>

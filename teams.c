@@ -3,6 +3,8 @@
 #include <string.h>
 #include "datastructure.h"
 #include "tools.h"
+#include "menu.h"
+#include "sort.h"
 #include "datetime.h"
 #include "teams.h"
 
@@ -101,8 +103,72 @@ void searchPlayer(void)
  ***************************************************************/
 void sortTeams(void)
 {
-    printf("sortTeams\n");
-    waitForEnter();
+    int choice;
+    char *menuoptions[] = {
+        "Spieler nach Namen sortieren",
+        "Spieler nach Geburtsdatum (Alter) sortieren",
+        "Spieler nach Trikotnr. Sortieren",
+        "Spieler nach Anzahl geschossener Tore sortieren",
+        "zurueck zum Hauptmenue"
+    };
+    int menuoptioncount = sizeof(menuoptions) / sizeof(menuoptions[0]);
+
+    // Display the sorting submenu
+    choice = getMenu("Untermenü für die Sortierung", menuoptions, menuoptioncount);
+    printf("Benutzer hat die Option gewaehlt: %d\n", choice);
+    switch (choice) {
+        case 1:
+            printf("Sortieren nach Namen...\n");
+            for (int i = 0; i < Teamcounter; i++) {
+                printf("%i Spieler der Mannschaft %s sortieren ...", Teams[i].playercount, Teams[i].teamname);
+                quickSort(Teams[i].players, 0, Teams[i].playercount - 1, compareByName);
+                printf("ok\n");
+        }
+        break;
+
+        case 2:
+            printf("Sortieren nach Geburtsdatum...\n");
+            for (int i= 0; i < Teamcounter; i++) {
+                printf("%i Spieler der Mannschaft %s sortieren ...", Teams[i].playercount, Teams[i].teamname);
+                quickSort(Teams[i].players,0,Teams[i].playercount - 1, compareByBirthdate);
+                printf("ok\n");
+            }
+            break;
+
+        case 3:
+            printf("Sortieren nach Trikotnummer ...\n");
+            for (int i = 0; i < Teamcounter; i++) {
+                printf("%i Spieler der Mannschft %s sortieren ...", Teams[i].playercount, Teams[i].teamname);
+                quickSort(Teams[i].players,0, Teams[i].playercount - 1, compareByJerseyNumber);
+                printf("ok\n");
+            }
+            break;
+
+        case 4:
+            printf("Sortieren nach Anzahl geschossener Tore ...\n");
+            for (int i = 0; i < Teamcounter; i++) {
+                printf("%i Spieler der Mannschaft %s sortieren ... ", Teams[i].playercount, Teams[i].teamname);
+                quickSort(Teams[i].players, 0, Teams[i].playercount - 1, compareByGoals);
+                printf("ok\n");
+            }
+            break;
+
+        case 5:
+            printf("Zurueck zum Hauptmenu\n");
+            break;
+
+        default:
+            printf("ungueltige Auswahl!\n");
+            return;
+    }
+
+    printf("\n Sortierung abgeschlossen.Sortierte Liste:\n");
+    listTeams();
+
+
+
+    //printf("sortTeams\n");
+    //waitForEnter();
 }
 
 

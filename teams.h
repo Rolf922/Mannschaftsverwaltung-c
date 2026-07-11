@@ -1,6 +1,7 @@
 #ifndef TEAMS_H
 #define TEAMS_H
 
+#include "datastructure.h"
 
 int createTeam();
 void deleteTeam(void);

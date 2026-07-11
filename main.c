@@ -23,7 +23,7 @@ int main(void)
 {
     load("teams.xml");
     /* Titel des Hauptmenüs */
-    char *menuTitle = "Mannschaften-Verwaltung V0.4";
+    char *menuTitle = "Mannschaften-Verwaltung V0.5";
 
     /* Texte der einzelnen Menüpunkte */
     char *menuItems[] =
