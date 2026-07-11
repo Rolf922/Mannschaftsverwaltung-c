@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "datastructure.h"
 #include "tools.h"
 #include "datetime.h"
@@ -13,29 +14,46 @@ sTeam Teams[MAXTEAMS];
 * Function: createTeam
 * Description: Funktion zur Erstellung einer neuen Mannschaft.
 ***************************************************************/
-void createTeam(void)
+int createTeam()
 {
-    sTeam *team = Teams + Teamcounter;
-    if(!(getText("teamname eingeben:", 50, 0, &team->teamname)))
+    sTeam *Team = Teams + Teamcounter;
+    if(!(getText("teamname eingeben:", 50, 0, &Team->teamname)))
     {
         printf("ungueltiger TeamName.\n");
-        return;
+        return 0;
+    }
+
+    // Trainername eingeben (optional)
+    printf("Trainername eingeben (optional): ");
+    char trainername[50];
+    fgets(trainername, sizeof(trainername), stdin);
+    if (trainername[0] != '\n') {
+        Team->trainername = malloc(strlen(trainername) + 1);
+        strcpy(Team->trainername, trainername);
+    } else {
+        Team->trainername = NULL;
     }
 
     // Playeranzahl initialisieren
-    team->playercount=0;
+    Team->playercount = 0;
 
     // schleife zum Hinzufugen von Playern
-    do{
-        if (createPlayer(team->players + team->playercount)) {
-            team->playercount++;
-        } else{
+    do
+    {
+        if (createPlayer(Team->players + Team->playercount))
+        {
+            Team->playercount++;
+        }
+        else
+        {
             printf("Player konnte nicht hinzugefugt werden.\n");
         }
 
-    } while (team->playercount < MAXPLAYER && askYesOrNo("Moechten Sie einen weiteren Player hinzufugen ?"));
+    } while ((Team->playercount < MAXPLAYER) && askYesOrNo("Moechten Sie einen weiteren Player hinzufugen ?"));
 
     Teamcounter++;
+
+    return 1;
 }
 
 /***************************************************************

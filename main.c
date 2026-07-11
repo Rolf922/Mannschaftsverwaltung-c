@@ -1,7 +1,9 @@
 #include <stdio.h>
 #include "datastructure.h"
+#include "tools.h"
 #include "menu.h"
 #include "teams.h"
+#include "database.h"
 
 /***************************************************************
  * Funktion: main
@@ -19,8 +21,9 @@
  ***************************************************************/
 int main(void)
 {
+    load("teams.xml");
     /* Titel des Hauptmenüs */
-    char *menuTitle = "Mannschaften-Verwaltung V0.2";
+    char *menuTitle = "Mannschaften-Verwaltung V0.4";
 
     /* Texte der einzelnen Menüpunkte */
     char *menuItems[] =
@@ -85,6 +88,9 @@ int main(void)
         }
 
     } while (choice != 6);
+
+    /* Daten beim Ende des Programms speichern */
+    save("teams.xml");
 
     /* Programm erfolgreich beenden */
     return 0;

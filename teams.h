@@ -2,7 +2,7 @@
 #define TEAMS_H
 
 
-void createTeam(void);
+int createTeam();
 void deleteTeam(void);
 void searchPlayer(void);
 void sortTeams(void);

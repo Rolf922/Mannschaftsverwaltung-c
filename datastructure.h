@@ -22,12 +22,12 @@ typedef struct
 typedef struct
 {
 	char *teamname;
-	char *coachname;
+	char *trainername;
 	int playercount;
 	sPlayer players[MAXPLAYER];
 } sTeam;
 
 extern int Teamcounter;
-extern sTeam Team[MAXTEAMS];
+extern sTeam Teams[MAXTEAMS];
 
 #endif
